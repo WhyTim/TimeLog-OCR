@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Compile Python files
+        run: python -m compileall -q main.py app tools
+      - name: Run tests
+        run: python -m pytest -q
+
+  build-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+      - name: Install OCR engine
+        run: |
+          choco install tesseract --no-progress -y
+          $tessdata = "C:\Program Files\Tesseract-OCR\tessdata"
+          New-Item -ItemType Directory -Force -Path $tessdata | Out-Null
+          Invoke-WebRequest "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/eng.traineddata" -OutFile "$tessdata\eng.traineddata"
+          Invoke-WebRequest "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/rus.traineddata" -OutFile "$tessdata\rus.traineddata"
+          Invoke-WebRequest "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/osd.traineddata" -OutFile "$tessdata\osd.traineddata"
+      - name: Build installer
+        run: .\build_installer.bat
+      - name: Publish installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${{ github.ref_name }}" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create "${{ github.ref_name }}" --title "TimeLog OCR ${{ github.ref_name }}" --notes "Установщик TimeLog OCR для Windows."
+          }
+          gh release upload "${{ github.ref_name }}" "dist/installer/TimeLogOCRSetup-1.6.0.exe" --clobber

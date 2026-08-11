@@ -1,0 +1,30 @@
+QMainWindow, QWidget { background: #f8fafc; color: #0f172a; font-family: "Segoe UI"; font-size: 10pt; }
+QFrame#Card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; }
+QLabel#Title { font-size: 14pt; font-weight: 700; }
+QLabel#Muted { color: #64748b; }
+QPushButton { color: #0f172a; border: 1px solid #cbd5e1; border-radius: 7px; padding: 7px 12px; background: #ffffff; }
+QPushButton:hover { color: #0f172a; background: #eff6ff; border-color: #93c5fd; }
+QPushButton:pressed { color: #0f172a; background: #dbeafe; border-color: #60a5fa; }
+QPushButton:focus { color: #0f172a; outline: none; border: 1px solid #2563eb; background: #eff6ff; }
+QPushButton:checked, QPushButton[active="true"] { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+QPushButton:checked:focus, QPushButton[active="true"]:focus { background: #1d4ed8; color: #ffffff; border-color: #1e40af; }
+QPushButton:disabled { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; }
+QPushButton#Primary { background: #2563eb; color: #ffffff; border-color: #2563eb; font-weight: 600; }
+QPushButton#Primary:hover { background: #1d4ed8; color: #ffffff; }
+QPushButton#Primary:pressed, QPushButton#Primary:focus { background: #1e40af; color: #ffffff; border-color: #1e3a8a; }
+QPushButton#Primary:disabled { background: #bfdbfe; color: #eff6ff; border-color: #bfdbfe; }
+QPushButton#Danger { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+QPushButton#Danger:hover { background: #fecaca; color: #7f1d1d; }
+QPushButton#Danger:pressed, QPushButton#Danger:focus { background: #fecaca; color: #7f1d1d; border-color: #ef4444; }
+QPushButton#Danger:disabled { background: #fee2e2; color: #fca5a5; border-color: #fee2e2; }
+QLineEdit, QComboBox, QPlainTextEdit, QTimeEdit, QDateEdit { background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 7px; padding: 5px; }
+QTableView { background: #ffffff; alternate-background-color: #f8fafc; gridline-color: #e2e8f0; selection-background-color: #dbeafe; selection-color: #0f172a; }
+QHeaderView::section { background: #f1f5f9; border: 0; border-bottom: 1px solid #e2e8f0; padding: 8px; font-weight: 600; }
+QScrollArea { border: 0; }
+QFrame#SummaryCard { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; }
+
+QPushButton:focus {
+  outline: none;
+  border: 1px solid #2563eb;
+  background: #eff6ff;
+}
